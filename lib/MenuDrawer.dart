@@ -25,6 +25,14 @@ class _MenuDrawerState extends State<MenuDrawer> {
             currentAccountPicture: const CircleAvatar(
               backgroundImage: AssetImage("images/image.png"),
             ),
+            decoration: BoxDecoration(
+              image: DecorationImage(
+                image: AssetImage(
+                  'images/mavuika.png',
+                ), // ใส่ภาพพื้นหลังที่ต้องการ
+                fit: BoxFit.cover, // ปรับขนาดให้เต็มพื้นที่
+              ),
+            ),
           ),
           ListTile(
             leading: const Icon(Icons.book),
