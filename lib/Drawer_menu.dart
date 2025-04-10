@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:my_project/MenuDrawer.dart';
+import 'package:my_project/ManagePage.dart'; // Import ManagePage
 
 class Drawer_menu extends StatefulWidget {
   const Drawer_menu({super.key});
@@ -12,7 +13,7 @@ class _Drawer_menuState extends State<Drawer_menu> {
   Widget popupMenuButton() {
     return PopupMenuButton<String>(
       itemBuilder:
-          (c) => [
+          (context) => [
             PopupMenuItem(
               child: ListTile(
                 leading: Icon(
@@ -25,12 +26,15 @@ class _Drawer_menuState extends State<Drawer_menu> {
                   style: TextStyle(color: Colors.blue.shade600, fontSize: 20),
                 ),
                 onTap: () {
-                  Navigator.of(context).pop();
+                  Navigator.of(context).pop(); // Close Popup
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => ManagePage()),
+                  );
                 },
               ),
             ),
             PopupMenuDivider(),
-
             PopupMenuItem(
               child: ListTile(
                 leading: Icon(
@@ -48,7 +52,6 @@ class _Drawer_menuState extends State<Drawer_menu> {
               ),
             ),
             PopupMenuDivider(),
-
             PopupMenuItem(
               child: ListTile(
                 leading: Icon(
