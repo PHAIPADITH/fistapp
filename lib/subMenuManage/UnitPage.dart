@@ -1,3 +1,4 @@
+import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 
@@ -9,55 +10,24 @@ class UnitPage extends StatefulWidget {
 }
 
 class _UnitPageState extends State<UnitPage> {
-  PickedFile? imgFile;
+  XFile? imgFile;
   final ImagePicker impicker = ImagePicker();
 
   void takePhoto(ImageSource source) async {
-    final FileImage = await impicker.pickImage(source: source);
+    final pickedImage = await impicker.pickImage(source: source);
+    if (pickedImage != null) {
+      setState(() {
+        imgFile = pickedImage;
+      });
+    }
   }
 
-  void selectPhoto() {
-    showModalBottomSheet(
-      context: context,
-      builder: (c) {
-        return Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Text(
-                "ເລືອກຮູບຈາກ",
-                style: TextStyle(color: Colors.blue.shade800, fontSize: 22),
-              ),
-              const Divider(color: Colors.blue, thickness: 2),
-
-              ListTile(
-                leading: Icon(Icons.camera_alt, color: Colors.red, size: 25),
-                title: Text(
-                  "Camera",
-                  style: TextStyle(color: Colors.red, fontSize: 20),
-                ),
-                onTap: () {
-                  Navigator.pop(context); // ปิด bottom sheet
-                  // TODO: Add camera functionality
-                },
-              ),
-              ListTile(
-                leading: Icon(Icons.photo, color: Colors.red, size: 25),
-                title: Text(
-                  "Gallery",
-                  style: TextStyle(color: Colors.red, fontSize: 20),
-                ),
-                onTap: () {
-                  Navigator.pop(context); // ปิด bottom sheet
-                  // TODO: Add gallery functionality
-                },
-              ),
-            ],
-          ),
-        );
-      },
-    );
+  void handleMenuSelection(String value) {
+    if (value == 'camera') {
+      takePhoto(ImageSource.camera);
+    } else if (value == 'gallery') {
+      takePhoto(ImageSource.gallery);
+    }
   }
 
   @override
@@ -67,20 +37,46 @@ class _UnitPageState extends State<UnitPage> {
       body: Center(
         child: Stack(
           children: [
-            const CircleAvatar(
+            CircleAvatar(
               radius: 80.0,
-              backgroundImage: AssetImage("images/shop.png"),
+              backgroundImage:
+                  imgFile == null
+                      ? const AssetImage("images/image.png")
+                      : FileImage(File(imgFile!.path)) as ImageProvider,
             ),
             Positioned(
               bottom: 18.0,
               right: 18.0,
-              child: InkWell(
-                onTap: selectPhoto,
-                child: Icon(
+              child: PopupMenuButton<String>(
+                icon: Icon(
                   Icons.camera_alt,
                   color: Colors.amber.shade900,
                   size: 30,
                 ),
+                onSelected: handleMenuSelection,
+                itemBuilder:
+                    (BuildContext context) => [
+                      PopupMenuItem(
+                        value: 'camera',
+                        child: Row(
+                          children: [
+                            Icon(Icons.camera_alt, color: Colors.red),
+                            SizedBox(width: 8),
+                            Text("Camera"),
+                          ],
+                        ),
+                      ),
+                      PopupMenuItem(
+                        value: 'gallery',
+                        child: Row(
+                          children: [
+                            Icon(Icons.photo, color: Colors.red),
+                            SizedBox(width: 8),
+                            Text("Gallery"),
+                          ],
+                        ),
+                      ),
+                    ],
               ),
             ),
           ],
