@@ -63,6 +63,8 @@ flutter:
     - images/nintendo.png
     - images/mavuika.png
     - images/image.png
+    - images/background.jpg
+    - images/shop.png
 
   #   - images/a_dot_ham.jpeg
 

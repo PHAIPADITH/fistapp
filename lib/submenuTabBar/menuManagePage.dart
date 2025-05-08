@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:my_project/subMenuManage/BookPage.dart';
 import 'package:my_project/subMenuManage/CategoryPage.dart';
 import 'package:my_project/subMenuManage/ProductPage.dart';
 import 'package:my_project/subMenuManage/UnitPage.dart';
@@ -50,6 +51,12 @@ class _menuManagePageState extends State<menuManagePage> {
             }),
             _buildMenuItem(Icons.people, 'ລູກຄ້າ', () {
               print("กดเมนูลูกค้า");
+            }),
+            _buildMenuItem(Icons.book, 'ຂໍ້ມູນປຶ້ມ', () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => BookPage()),
+              );
             }),
           ],
         ),
